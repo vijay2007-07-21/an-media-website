@@ -23,13 +23,18 @@ function HomePage() {
       <Header />
 
       <main>
+        {/* Visible on both desktop and mobile */}
         <Hero />
         <About />
         <Services />
         <Work />
         <WhyUs />
-        <Team />
-        <Contact />
+
+        {/* Desktop only - mobile stays clean */}
+        <div className="hidden md:block">
+          <Team />
+          <Contact />
+        </div>
       </main>
 
       <Footer />
@@ -41,40 +46,17 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Main Website */}
+        <Route path="/" element={<HomePage />} />
 
-        {/* MAIN WEBSITE */}
-        <Route
-          path="/"
-          element={<HomePage />}
-        />
+        {/* Customer */}
+        <Route path="/customer/login" element={<CustomerLogin />} />
+        <Route path="/customer/register" element={<CustomerRegister />} />
+        <Route path="/customer/book" element={<BookSlot />} />
 
-        {/* CUSTOMER */}
-        <Route
-          path="/customer/login"
-          element={<CustomerLogin />}
-        />
-
-        <Route
-          path="/customer/register"
-          element={<CustomerRegister />}
-        />
-
-        <Route
-          path="/customer/book"
-          element={<BookSlot />}
-        />
-
-        {/* ADMIN */}
-        <Route
-          path="/admin/login"
-          element={<AdminLogin />}
-        />
-
-        <Route
-          path="/admin"
-          element={<AdminDashboard />}
-        />
-
+        {/* Admin */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );

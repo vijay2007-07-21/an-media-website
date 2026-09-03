@@ -2,7 +2,7 @@ import Container from "../ui/Container";
 import Eyebrow from "../ui/Eyebrow";
 import Reveal from "../ui/Reveal";
 import { SERVICES } from "../../data/services";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CalendarDays } from "lucide-react";
 
 export default function Services() {
   return (
@@ -36,12 +36,25 @@ export default function Services() {
         {/* SERVICES GRID */}
         <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, i) => {
-            const Icon = service.icon;
+            const isDigitalMarketing = service.title === "Digital Marketing";
+
+            const Icon = isDigitalMarketing ? CalendarDays : service.icon;
+
+            const title = isDigitalMarketing
+              ? "Event Management"
+              : service.title;
+
+            const description = isDigitalMarketing
+              ? "Professional event planning, promotion, coverage and creative support for memorable events."
+              : service.description;
 
             return (
-              <Reveal key={service.title} delay={(i % 3) * 0.07}>
+              <Reveal
+                key={service.code}
+                delay={(i % 3) * 0.07}
+              >
                 <div className="group relative h-full overflow-hidden rounded-2xl border border-ink/10 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-[0_20px_45px_-18px_rgba(17,17,17,0.22)]">
-
+                  
                   {/* TOP */}
                   <div className="flex items-center justify-between">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F1F1F1] transition-colors duration-300 group-hover:bg-[#F5C518]">
@@ -58,14 +71,14 @@ export default function Services() {
 
                   {/* CONTENT */}
                   <h3 className="mt-7 font-display text-xl font-semibold">
-                    {service.title}
+                    {title}
                   </h3>
 
                   <p
                     className="mt-3 text-sm leading-relaxed"
                     style={{ color: "#4A4A46" }}
                   >
-                    {service.description}
+                    {description}
                   </p>
 
                   {/* ARROW */}
@@ -81,7 +94,6 @@ export default function Services() {
                       <ArrowUpRight size={15} />
                     </div>
                   </div>
-
                 </div>
               </Reveal>
             );

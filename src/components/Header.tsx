@@ -7,6 +7,10 @@ import logo from "../assets/brand/an-media-logo.png";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const mobileLinks = NAV_LINKS.filter((link) =>
+    ["Home", "About", "Services", "Work", "Why Us"].includes(link.label)
+  );
+
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper/90 backdrop-blur-md">
       <Container>
@@ -64,6 +68,7 @@ export default function Header() {
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 md:hidden"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -72,35 +77,37 @@ export default function Header() {
         {/* Mobile Navigation */}
         {menuOpen && (
           <div className="border-t border-ink/10 py-5 md:hidden">
-            <nav className="flex flex-col gap-2">
-              {NAV_LINKS.map((link) => (
+            <nav className="flex flex-col gap-1">
+              {mobileLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="py-3 text-sm font-medium"
+                  className="rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-mist hover:text-[#F5C518]"
                 >
                   {link.label}
                 </a>
               ))}
 
-              {/* Mobile Client Login */}
+              <div className="my-3 border-t border-ink/10" />
+
+              {/* Client Login */}
               <a
                 href="/customer/login"
                 onClick={() => setMenuOpen(false)}
-                className="mt-2 flex items-center justify-center gap-2 rounded-full border border-ink/15 px-5 py-3 text-sm font-medium transition-all hover:border-[#F5C518] hover:bg-[#F5C518]"
+                className="flex items-center justify-center gap-2 rounded-full border border-ink/15 px-5 py-3 text-sm font-medium transition-all hover:border-[#F5C518] hover:bg-[#F5C518]"
               >
                 <UserRound size={16} />
                 Client Login
               </a>
 
-              {/* Mobile Let's Talk */}
+              {/* Book a Slot */}
               <a
-                href="#contact"
+                href="/customer/book"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-medium text-white"
+                className="mt-2 flex items-center justify-center gap-2 rounded-full bg-[#F5C518] px-5 py-3 text-sm font-semibold text-ink transition-all hover:bg-ink hover:text-white"
               >
-                Let's Talk
+                Book a Slot
                 <ArrowUpRight size={16} />
               </a>
             </nav>

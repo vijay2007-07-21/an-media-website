@@ -35,10 +35,7 @@ export default function About() {
 
           {/* DIVISIONS */}
           <div className="lg:col-span-7">
-            <div
-              className="divide-y"
-              style={{ borderColor: "#E4E3DC" }}
-            >
+            <div className="divide-y" style={{ borderColor: "#E4E3DC" }}>
               {DIVISIONS.map((division, i) => {
                 const Icon = ICONS[i] ?? Film;
 
@@ -82,9 +79,10 @@ export default function About() {
           </div>
         </div>
 
-        {/* FOUNDER */}
+        {/* FOUNDER
+            Hidden on mobile, visible from md and above */}
         <Reveal delay={0.15}>
-          <div className="mt-20 grid grid-cols-1 items-center gap-10 rounded-3xl bg-ink p-8 md:p-12 lg:grid-cols-2">
+          <div className="hidden md:grid mt-20 grid-cols-1 items-center gap-10 rounded-3xl bg-ink p-8 md:p-12 lg:grid-cols-2">
             <div>
               <p
                 className="font-mono text-xs uppercase tracking-[0.2em]"
@@ -108,23 +106,23 @@ export default function About() {
             </div>
 
             <div className="overflow-hidden rounded-2xl bg-black">
-  <video
-    className="block aspect-video h-full w-full object-cover"
-    src="\videos\intro_an_media.mp4"
-    controls
-    playsInline
-    preload="metadata"
-  >
-    Your browser does not support the video element.
-  </video>
-</div>
+              <video
+                className="block aspect-video h-full w-full object-cover"
+                src="/videos/intro_an_media.mp4"
+                controls
+                playsInline
+                preload="metadata"
+              >
+                Your browser does not support the video element.
+              </video>
+            </div>
           </div>
         </Reveal>
 
-        {/* VIDEO EDITOR / CREATIVE HEAD */}
+        {/* VIDEO EDITOR / CREATIVE HEAD
+            Hidden on mobile, visible from md and above */}
         <Reveal delay={0.2}>
-          <div className="mt-8 grid grid-cols-1 items-center gap-10 rounded-3xl border border-ink/10 bg-white p-8 md:p-12 lg:grid-cols-2">
-            
+          <div className="hidden md:grid mt-8 grid-cols-1 items-center gap-10 rounded-3xl border border-ink/10 bg-white p-8 md:p-12 lg:grid-cols-2">
             {/* TEXT */}
             <div className="order-2 lg:order-1">
               <p
@@ -138,10 +136,7 @@ export default function About() {
                 Morla Vijay
               </h3>
 
-              <p
-                className="mt-2 text-sm"
-                style={{ color: "#4A4A46" }}
-              >
+              <p className="mt-2 text-sm" style={{ color: "#4A4A46" }}>
                 Video Editor & Creative Head
               </p>
 

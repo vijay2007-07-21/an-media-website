@@ -24,7 +24,6 @@ export default function Hero() {
 
           {/* LEFT CONTENT */}
           <div className="lg:col-span-7">
-
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -94,15 +93,15 @@ export default function Hero() {
                 View Our Work
               </ButtonLink>
             </motion.div>
-
           </div>
 
-          {/* RIGHT MEDIA CARD */}
+          {/* RIGHT MEDIA CARD
+              Hidden on mobile, visible on desktop */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-5"
+            className="hidden lg:col-span-5 lg:block"
           >
             <div className="relative overflow-hidden rounded-[30px] bg-ink p-7 text-white shadow-[0_30px_70px_-25px_rgba(17,17,17,0.45)]">
 
@@ -128,9 +127,7 @@ export default function Hero() {
 
               {/* Visual area */}
               <div className="relative mt-7 aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-
                 <div className="absolute inset-0 grid grid-cols-2 gap-2 p-3">
-
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-1 items-center justify-center rounded-xl bg-white/10">
                       <Camera size={38} className="text-white/50" />
@@ -157,7 +154,6 @@ export default function Hero() {
                       <Sparkles size={38} className="text-white/50" />
                     </div>
                   </div>
-
                 </div>
 
                 {/* Center play button */}
@@ -206,7 +202,6 @@ export default function Hero() {
                   Our Creation
                 </span>
               </div>
-
             </div>
           </motion.div>
         </div>
