@@ -5,6 +5,7 @@ import {
   Clock3,
   LogOut,
   Menu,
+  MessageCircle,
   RefreshCw,
   Search,
   X,
@@ -109,27 +110,98 @@ export default function AdminDashboard() {
   ) {
     setUpdatingId(bookingId);
 
-    const { error } = await supabase
+    const booking = bookings.find((item) => item.id === bookingId);
+
+    if (!booking) {
+      alert("Booking not found.");
+      setUpdatingId(null);
+      return;
+    }
+
+    if (status !== "accepted" && status !== "rejected") {
+      alert("Invalid booking status.");
+      setUpdatingId(null);
+      return;
+    }
+
+    const { error: updateError } = await supabase
       .from("bookings")
       .update({ status })
       .eq("id", bookingId);
 
-    if (error) {
-      console.error(error);
-      alert(error.message);
+    if (updateError) {
+      console.error("Booking update error:", updateError);
+      alert(updateError.message);
       setUpdatingId(null);
       return;
     }
 
     setBookings((current) =>
-      current.map((booking) =>
-        booking.id === bookingId
-          ? { ...booking, status }
-          : booking
+      current.map((item) =>
+        item.id === bookingId ? { ...item, status } : item
       )
     );
 
     setUpdatingId(null);
+
+    alert(
+      status === "accepted"
+        ? "Booking accepted. You can now send the client a WhatsApp message."
+        : "Booking rejected. You can now send the client a WhatsApp message."
+    );
+  }
+
+  function getWhatsAppNumber(phone: string) {
+    const digits = phone.replace(/\D/g, "");
+
+    if (digits.length === 10) {
+      return `91${digits}`;
+    }
+
+    if (digits.startsWith("00")) {
+      return digits.slice(2);
+    }
+
+    return digits;
+  }
+
+  function sendWhatsApp(booking: Booking) {
+    const whatsappNumber = getWhatsAppNumber(booking.phone);
+
+    if (!whatsappNumber || whatsappNumber.length < 10) {
+      alert("Client phone number is invalid.");
+      return;
+    }
+
+    const date = formatDate(booking.booking_date);
+    const time = formatTime(booking.booking_time);
+
+    const message =
+      booking.status === "accepted"
+        ? `Hi ${booking.full_name} 👋
+
+Your AN Media booking has been accepted ✅
+
+Service: ${booking.service}
+Date: ${date}
+Time: ${time}
+
+Thank you for choosing AN Media. We look forward to working with you.`
+        : `Hi ${booking.full_name} 👋
+
+Your AN Media booking request has been rejected ❌
+
+Service: ${booking.service}
+Date: ${date}
+Time: ${time}
+
+Please contact AN Media if you would like to discuss another date or time.`;
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   async function handleLogout() {
@@ -645,6 +717,17 @@ export default function AdminDashboard() {
                               Reject
                             </button>
 
+                            {booking.status !== "pending" && (
+                              <button
+                                type="button"
+                                onClick={() => sendWhatsApp(booking)}
+                                className="flex items-center gap-1.5 rounded-full border border-[#25D366]/30 bg-[#25D366]/10 px-4 py-2 text-xs font-medium text-[#128C7E] transition hover:bg-[#25D366]/20"
+                              >
+                                <MessageCircle size={13} />
+                                WhatsApp
+                              </button>
+                            )}
+
                           </div>
 
                         </td>
@@ -791,6 +874,17 @@ export default function AdminDashboard() {
                         <XCircle size={13} />
                         Reject
                       </button>
+
+                      {booking.status !== "pending" && (
+                        <button
+                          type="button"
+                          onClick={() => sendWhatsApp(booking)}
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-[#25D366] px-3 py-2.5 text-xs font-semibold text-white transition hover:bg-[#128C7E]"
+                        >
+                          <MessageCircle size={13} />
+                          WhatsApp
+                        </button>
+                      )}
 
                     </div>
 
