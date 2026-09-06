@@ -24,7 +24,7 @@ export default function Header() {
             <img
               src={logo}
               alt={BRAND.name}
-              className="h-9 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </a>
 
